@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ENTER</title>
+    <meta
+      name="description"
+      content="etworked Audio Example — Networked-Aframe"
+    />
+  </head>
+  
+  <body>
+    
+    <div>
+        <input id="userName1" placeholder="Write your new Username here!">
+        <button onclick="changeUsername1()">Change Username</button>
+    </div>
+   
+    
+    <script>
+
+      
+      function changeUsername1() {
+        
+            
+      
+        let player = index.getElementById("player");
+        let nametag = player.querySelector(".nametag");
+      
+        let yourName = index.getElementById("userName");
+        yourName.setAttribute('placeholder', username);
+        
+        var input = document.getElementById("userName").value;
+        nametag.setAttribute('text', 'value', input);
+        
+      }
+      
+      
+    </script>
+    
+  </body>
+  
+</html>

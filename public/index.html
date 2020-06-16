@@ -1,0 +1,925 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Networked Audio Example — Networked-Aframe</title>
+    <meta
+      name="description"
+      content="etworked Audio Example — Networked-Aframe"
+    />
+
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="https://cdn.glitch.com/2e7876cd-d01b-4dd9-b6a4-e706ae209166%2Ffavicon1.png?v=1591365318760"
+    />
+
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+    <script src="easyrtc/easyrtc.js"></script>
+    <script src="https://unpkg.com/networked-aframe@^0.6.0/dist/networked-aframe.min.js"></script>
+
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
+    <script src="/js/spawn-in-circle.component.js"></script>
+    
+    <script src="https://unpkg.com/aframe-animation-component@^4.1.2/dist/aframe-animation-component.min.js"></script>
+    <script src="https://cdn.rawgit.com/zcanter/aframe-gradient-sky/master/dist/gradientsky.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div id="mainCont" style="position:relative">
+      <div style="position:absolute; z-index:0">
+        <a-scene
+          physics="debug: true"
+          networked-scene="
+      room: audio;
+      adapter: easyrtc;
+      audio: true;
+      debug: true;
+    "
+        >
+          <a-assets>
+            <img
+              id="grid"
+              src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png"
+              crossorigin="anonymous"
+            />
+            <img
+              id="sky"
+              src="https://img.gs/bbdkhfbzkk/2048x2048,stretch/http://i.imgur.com/WqlqEkq.jpg"
+              crossorigin="anonymous"
+            />
+
+            <video id="webcam" playsinline></video>
+
+            <!-- Templates -->
+
+            <!-- Avatar -->
+            <template id="avatar-template">
+              <a-entity class="avatar" networked-audio-source="refDistance: 10">
+                <a-sphere
+                  class="head"
+                  color="#5985ff"
+                  scale="0.45 0.5 0.4"
+                  random-color
+                ></a-sphere>
+                <a-entity
+                  class="nametag"
+                  text="value: you; align: center; width: 10"
+                  position="0 1.1 0"
+                  rotation="0 180 0"
+                ></a-entity>
+                <a-entity
+                  class="chattext"
+                  text="value: you; align: center; width: 3"
+                  position="0 0.7 0"
+                  rotation="0 180 0"
+                ></a-entity>
+                <a-entity class="face" position="0 0.05 0">
+                  <a-sphere
+                    class="eye"
+                    color="#efefef"
+                    position="0.16 0.1 -0.35"
+                    scale="0.12 0.12 0.12"
+                  >
+                    <a-sphere
+                      class="pupil"
+                      color="#000"
+                      position="0 0 -1"
+                      scale="0.2 0.2 0.2"
+                    ></a-sphere>
+                  </a-sphere>
+                  <a-sphere
+                    class="eye"
+                    color="#efefef"
+                    position="-0.16 0.1 -0.35"
+                    scale="0.12 0.12 0.12"
+                  >
+                    <a-sphere
+                      class="pupil"
+                      color="#000"
+                      position="0 0 -1"
+                      scale="0.2 0.2 0.2"
+                    ></a-sphere>
+                  </a-sphere>
+                </a-entity>
+              </a-entity>
+            </template>
+
+            <!-- /Templates -->
+
+            <img
+              id="cubelayout"
+              src="https://cdn.glitch.com/b94008f4-3267-4c66-a877-4503bc6086b0%2FCubeLayout2.png?v=1590508681160"
+              crossorigin="anonymous"
+            />
+
+            <!-- Audio -->
+
+            <audio
+              id="music1"
+              src="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2FAn%20Unlikely%20Hero_redux.mp3?v=1590782293506"
+            ></audio>
+            <audio
+              id="music2"
+              src="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2FBoris%20Brejcha_redux.mp3?v=1590782296916"
+            ></audio>
+            <audio
+              id="music3"
+              src="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2FChristian%20Schachinger%20-redux.mp3?v=1590782308017"
+            ></audio>
+            <audio
+              id="music4"
+              src="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2FDeborah%20de%20Luca%20redux.mp3?v=1590782316276"
+            ></audio>
+            <audio
+              id="center1"
+              src="https://cdn.glitch.com/b94008f4-3267-4c66-a877-4503bc6086b0%2FNeo%20bot%20music%202redux.mp3?v=1590508686035"
+            ></audio>
+            <audio
+              id="musicentrance"
+              src="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2F208516__frankum__entrancemod.mp3?v=1592321706740"
+            ></audio>
+          </a-assets>
+
+          <a-entity
+            id="player"
+            networked="template:#avatar-template;attachTemplateToLocal: false;"
+            camera
+            spawn-in-circle="radius:3;"
+            position="0 1.3 60"
+            wasd-controls
+            look-controls
+          >
+            <a-entity class="avatar" networked-audio-source></a-entity>
+            <a-sphere class="head" visible="false" random-color></a-sphere>
+            <a-entity class="nametag" text="value: YOLO"></a-entity>
+            <a-entity class="chattext" text=""></a-entity>
+          </a-entity>
+
+      <a-entity light="type: ambient;
+                       color:#465366;
+                       intensity: 1;
+                       "></a-entity>
+      
+      <a-entity light="type: point;
+                       color:#db6eff;
+                       intensity: 5;
+                       distance: 15"
+                position="20 7.5 4"></a-entity>
+      
+      <a-entity light="type: point;
+                       color:#6efaff;
+                       intensity: 5;
+                       distance: 25"
+                position="-20 7.5 1"></a-entity>
+      
+
+      <a-sky src="#sky" rotation="0 -90 0"></a-sky>
+      <a-entity id="particles" particle-system="preset: snow"></a-entity>
+      
+      <!--Ceiling&Floor-->
+      <a-cylinder    scale="30 1.9 30"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+                position="0 15 -10"
+                animation="property: scale; from: 50.1 1.1 50.1; to: 50.2 1.2 50.2; dur: 1000; loop: true; dir: alternate" 
+                animation__2="property: material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"
+             ></a-cylinder>
+      <a-cylinder    scale="30 1.9 30"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+                position="0 -2 -10"
+                animation="property: scale; from: 50.1 1.1 50.1; to: 50.2 1.2 50.2; dur: 1000; loop: true; dir: alternate" 
+                animation__2="property: material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"
+             ></a-cylinder>
+          
+          
+      <!-- ENTRANCE -->
+          
+      <a-cylinder position="0 7 50"
+                  scale="10 100 10"
+                  rotation="90 0 0"
+                  side="double"
+                  open-ended="true"
+                  color="black"
+                  ></a-cylinder>
+      
+      <a-cylinder position="0 7 0"
+                  scale="10 0.5 10"
+                  rotation="90 0 0"
+                  side="double"
+                  material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #b73bff; emissiveIntensity: 0"
+                  animation="property: material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"></a-cylinder>
+          
+
+          
+      <a-cylinder position="0 7 60"
+                  scale="10 0.5 10"
+                  rotation="90 0 0"
+                  visible="false"
+                  sound="src: #musicentrance; 
+                    autoplay: true;
+                    volume: 1;
+                    loop: true;
+                    refDistance: 30;
+                    rolloffFactor: 10"></a-cylinder>
+          
+      <a-cylinder position="0 7 20"
+                  scale="10 0.5 10"
+                  rotation="90 0 0"
+                  side="double"
+                  material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+                  animation="property: material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"></a-cylinder>
+          
+      <a-cylinder position="0 7 40"
+                  scale="10 0.5 10"
+                  rotation="90 0 0"
+                  side="double"
+                  material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #b8f8ff; emissiveIntensity: 0"
+                  animation="property: material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"
+                  ></a-cylinder>
+
+
+          
+          
+      <a-cylinder position="0 7 90"
+                  scale="10 0.5 10"
+                  rotation="90 0 0"
+                  color="black"
+                  side="double"
+                  ></a-cylinder>
+      
+
+     
+    <!--CENTER-->  
+    <a-entity position="0 0 0">
+      
+      <!-- MODEL AND LIGHTS -->
+      <a-entity>
+      
+            <a-entity gltf-model="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2Fravecartel1.glb?v=1590784612437"
+                scale="1 1 1"
+                rotation="0 0 0"
+                position="0 9 -10"
+                animation="property: rotation; to: 0 360 0; dur: 20000; loop: true; dir: reverse"
+                ></a-entity>  
+        
+        
+      <a-entity gltf-model="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2FFrankTest.glb?v=1590775524548"
+                scale="100 100 100"
+                rotation="0 0 0"
+                position="0 5.5 -10"
+                material="metalness: 0; roughness: 1"
+                animation="property: position; to: 0 5.8 -10; dur: 1100; loop: true; dir: alternate"
+                animation__2="property: rotation; from: 0 360 0; dur: 25000; loop: true; dir: reverse"
+                >
+        
+              <a-entity light="type: point;
+                       color:#db6eff;
+                       intensity: 15;
+                       distance: 15"
+                position="0 6 -10"></a-entity>
+        
+              <a-entity light="type: point;
+                       color:#6efaff;
+                       intensity: 10;
+                       distance: 15"
+                position="2 8 -9"></a-entity>
+        
+              <a-entity light="type: point;
+                       color:#db6eff;
+                       intensity: 10;
+                       distance: 15"
+                position="0 7 -10"></a-entity>
+             
+      </a-entity>
+        
+      
+     </a-entity>
+
+      
+      <!--BOX AND MUSIC-->
+      
+
+      <a-box    scale="2 5 2"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+                
+                position="0 1 -10"
+               
+             >
+        
+      </a-box>
+      
+      
+      <a-box    scale="1.9 1.9 1.9"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+                position="0 1 -10"
+                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
+                animation__2="property: material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+             ></a-box>
+        
+        
+      <a-box    scale="2 5 2"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+                
+                position="0 11 -10"
+               
+             >
+        
+      </a-box>
+      
+      
+      <a-box    scale="1.9 1.9 1.9"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+                position="0 11 -10"
+                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
+                animation__2="property: material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+             ></a-box>
+      
+      <a-sphere  radius="30"
+                 position="0 5 -10"
+                 visible="false"
+                 sound="src: #center1; 
+                    autoplay: true;
+                    volume: 1;
+                    loop: true;
+                    refDistance: 20;
+                    rolloffFactor: 10">     
+      </a-sphere>
+     
+      </a-entity>
+      
+      <!--1-->
+      <a-entity position="30 0 30">
+            <!-- MODEL AND LIGHTS -->
+      <a-entity>
+      
+      <a-entity gltf-model="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2FFrankTest.glb?v=1590775524548"
+                scale="100 100 100"
+                rotation="0 0 0"
+                position="0 5.5 -10"
+                animation="property: position; to: 0 5.8 -10; dur: 1100; loop: true; dir: alternate"
+                animation__2="property: rotation; from: 0 360 0; dur: 25000; loop: true; dir: reverse"
+                >
+        
+              <a-entity light="type: point;
+                       color:#db6eff;
+                       intensity: 15;
+                       distance: 15"
+                position="0 6 -10"></a-entity>
+        
+              <a-entity light="type: point;
+                       color:#6efaff;
+                       intensity: 10;
+                       distance: 15"
+                position="2 8 -9"></a-entity>
+        
+              <a-entity light="type: point;
+                       color:#db6eff;
+                       intensity: 10;
+                       distance: 15"
+                position="0 7 -10"></a-entity>
+             
+      </a-entity>
+        
+      
+     </a-entity>
+
+      
+      <!--BOX AND MUSIC-->
+      
+
+      <a-box    scale="2 5 2"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+                
+                position="0 1 -10"
+               
+             >
+        
+      </a-box>
+      
+      
+      <a-box    scale="1.9 1.9 1.9"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+                position="0 1 -10"
+                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
+                animation__2="property: material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+             ></a-box>
+        
+        
+      <a-box    scale="2 5 2"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+                
+                position="0 11 -10"
+               
+             >
+        
+      </a-box>
+      
+      
+      <a-box    scale="1.9 1.9 1.9"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+                position="0 11 -10"
+                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
+                animation__2="property: material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+             ></a-box>
+      
+      <a-sphere  radius="30"
+                 position="0 5 -10"
+                 visible="false"
+                 sound="src: #music1; 
+                    autoplay: true;
+                    volume: 1;
+                    loop: true;
+                    refDistance: 10;
+                    rolloffFactor: 10">     
+      </a-sphere>
+     
+      </a-entity>
+      
+      
+            <!--2-->
+      <a-entity position="30 0 -30">
+            <!-- MODEL AND LIGHTS -->
+      <a-entity>
+      
+      <a-entity gltf-model="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2FFrankTest.glb?v=1590775524548"
+                scale="100 100 100"
+                rotation="0 0 0"
+                position="0 5.5 -10"
+                animation="property: position; to: 0 5.8 -10; dur: 1100; loop: true; dir: alternate"
+                animation__2="property: rotation; from: 0 360 0; dur: 25000; loop: true; dir: reverse"
+                >
+        
+              <a-entity light="type: point;
+                       color:#db6eff;
+                       intensity: 15;
+                       distance: 15"
+                position="0 6 -10"></a-entity>
+        
+              <a-entity light="type: point;
+                       color:#6efaff;
+                       intensity: 10;
+                       distance: 15"
+                position="2 8 -9"></a-entity>
+        
+              <a-entity light="type: point;
+                       color:#db6eff;
+                       intensity: 10;
+                       distance: 15"
+                position="0 7 -10"></a-entity>
+             
+      </a-entity>
+        
+      
+     </a-entity>
+
+      
+      <!--BOX AND MUSIC-->
+      
+
+      <a-box    scale="2 5 2"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+                
+                position="0 1 -10"
+               
+             >
+        
+      </a-box>
+      
+      
+      <a-box    scale="1.9 1.9 1.9"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+                position="0 1 -10"
+                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
+                animation__2="property: material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+             ></a-box>
+        
+        
+      <a-box    scale="2 5 2"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+                
+                position="0 11 -10"
+               
+             >
+        
+      </a-box>
+      
+      
+      <a-box    scale="1.9 1.9 1.9"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+                position="0 11 -10"
+                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
+                animation__2="property: material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+             ></a-box>
+      
+      <a-sphere  radius="30"
+                 position="0 5 -10"
+                 visible="false"
+                 sound="src: #music2; 
+                    autoplay: true;
+                    volume: 1;
+                    loop: true;
+                    refDistance: 10;
+                    rolloffFactor: 10">     
+      </a-sphere>
+     
+      </a-entity>
+      
+      
+            <!--3-->
+      <a-entity position="-30 0 30">
+            <!-- MODEL AND LIGHTS -->
+      <a-entity>
+      
+      <a-entity gltf-model="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2FFrankTest.glb?v=1590775524548"
+                scale="100 100 100"
+                rotation="0 0 0"
+                position="0 5.5 -10"
+                animation="property: position; to: 0 5.8 -10; dur: 1100; loop: true; dir: alternate"
+                animation__2="property: rotation; from: 0 360 0; dur: 25000; loop: true; dir: reverse"
+                >
+        
+              <a-entity light="type: point;
+                       color:#db6eff;
+                       intensity: 15;
+                       distance: 15"
+                position="0 6 -10"></a-entity>
+        
+              <a-entity light="type: point;
+                       color:#6efaff;
+                       intensity: 10;
+                       distance: 15"
+                position="2 8 -9"></a-entity>
+        
+              <a-entity light="type: point;
+                       color:#db6eff;
+                       intensity: 10;
+                       distance: 15"
+                position="0 7 -10"></a-entity>
+             
+      </a-entity>
+        
+      
+     </a-entity>
+
+      
+      <!--BOX AND MUSIC-->
+      
+
+      <a-box    scale="2 5 2"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+                
+                position="0 1 -10"
+               
+             >
+        
+      </a-box>
+      
+      
+      <a-box    scale="1.9 1.9 1.9"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+                position="0 1 -10"
+                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
+                animation__2="property: material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+             ></a-box>
+        
+        
+      <a-box    scale="2 5 2"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+                
+                position="0 11 -10"
+               
+             >
+        
+      </a-box>
+      
+      
+      <a-box    scale="1.9 1.9 1.9"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+                position="0 11 -10"
+                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
+                animation__2="property: material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+             ></a-box>
+      
+      <a-sphere  radius="30"
+                 position="0 5 -10"
+                 visible="false"
+                 sound="src: #music3; 
+                    autoplay: true;
+                    volume: 1;
+                    loop: true;
+                    refDistance: 10;
+                    rolloffFactor: 10">     
+      </a-sphere>
+     
+      </a-entity>
+      
+            <!--4-->
+      <a-entity position="-30 0 -30">
+            <!-- MODEL AND LIGHTS -->
+      <a-entity>
+      
+      <a-entity gltf-model="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2FFrankTest.glb?v=1590775524548"
+                scale="100 100 100"
+                rotation="0 0 0"
+                position="0 5.5 -10"
+                animation="property: position; to: 0 5.8 -10; dur: 1100; loop: true; dir: alternate"
+                animation__2="property: rotation; from: 0 360 0; dur: 25000; loop: true; dir: reverse"
+                >
+        
+              <a-entity light="type: point;
+                       color:#db6eff;
+                       intensity: 15;
+                       distance: 15"
+                position="0 6 -10"></a-entity>
+        
+              <a-entity light="type: point;
+                       color:#6efaff;
+                       intensity: 10;
+                       distance: 15"
+                position="2 8 -9"></a-entity>
+        
+              <a-entity light="type: point;
+                       color:#db6eff;
+                       intensity: 10;
+                       distance: 15"
+                position="0 7 -10"></a-entity>
+             
+      </a-entity>
+        
+      
+     </a-entity>
+
+      
+      <!--BOX AND MUSIC-->
+      
+
+      <a-box    scale="2 5 2"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+                
+                position="0 1 -10"
+               
+             >
+        
+      </a-box>
+      
+      
+      <a-box    scale="1.9 1.9 1.9"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+                position="0 1 -10"
+                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
+                animation__2="property: material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+             ></a-box>
+        
+        
+      <a-box    scale="2 5 2"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+                
+                position="0 11 -10"
+               
+             >
+        
+      </a-box>
+      
+      
+      <a-box    scale="1.9 1.9 1.9"
+                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+                position="0 11 -10"
+                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
+                animation__2="property: material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+             ></a-box>
+      
+      <a-sphere  radius="30"
+                 position="0 5 -10"
+                 visible="false"
+                 sound="src: #music4; 
+                    autoplay: true;
+                    volume: 1;
+                    loop: true;
+                    refDistance: 10;
+                    rolloffFactor: 10">     
+      </a-sphere>
+     
+      </a-entity>
+
+        </a-scene>
+      </div>
+
+      <div id="ingameUI" style="position:absolute; z-index:1000; display: none">
+        <button id="myButton">Mute!</button>
+        <input id="userName" placeholder="Write your new Username here!" />
+        <button onclick="changeUsername()">Change Username</button>
+        <input id="chatBox" placeholder="Here to chat!" />
+        <button onclick="sendMessage()">
+          Send
+        </button>
+      </div>
+
+      <div id="enter">
+        <div>
+          <div id="enterBack"></div>
+          <h1>
+            WELCOME BOTS...
+          </h1>
+          <p>
+            Reminder: enter with Chrome on your desktop/laptop and use
+            earphones/headphones)<br />
+            Navigate within the space using W,S,A,D keys (or arrow keys), and
+            use the mouse to look around.<br />
+            Please allow the microphone so you can converse with others who are
+            on the platform.<br />
+          </p>
+          <p>
+            Please write your username below:
+          </p>
+          <input
+            id="firstUsername"
+            class="enterContent"
+            placeholder="Write your Username here!"
+          />
+          <button
+            id="enterButton"
+            class="enterContent"
+            onclick="changeUsernameFirst()"
+          >
+            To party!
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // On mobile remove elements that are resource heavy
+      var isMobile = AFRAME.utils.device.isMobile();
+
+      if (isMobile) {
+        var particles = document.getElementById("particles");
+        particles.parentNode.removeChild(particles);
+      }
+
+      // Define custom schema for syncing avatar color, set by random-color
+      NAF.schemas.add({
+        template: "#avatar-template",
+        components: [
+          "position",
+          "rotation",
+          {
+            selector: ".avatar",
+            component: "networked-audio-source",
+            property: "refDistance"
+          },
+          {
+            selector: ".head",
+            component: "material",
+            property: "color"
+          },
+          {
+            selector: ".nametag",
+            component: "text",
+            property: "value"
+          },
+          {
+            selector: ".chattext",
+            component: "text",
+            property: "value"
+          }
+        ]
+      });
+    </script>
+
+    <!--<script>
+      let button = document.getElementById("myButton");
+
+      button.addEventListener("click", function() {
+          
+          /*let component = document.querySelector('[networked-audio-source]').components['networked-audio-source'];
+          console.log(component.srcObject);*/
+          let mediaStream = document.querySelector('.avatar').components['networked-audio-source'].srcObject;
+          mediaStream.getAudioTracks()[0].enabled = false;
+        
+      });  
+      
+    </script>-->
+
+    <!--AUDIO BUTTON-->
+    <script>
+      let button = document.getElementById("myButton");
+      let audiortc = 1;
+
+      button.addEventListener("click", function() {
+        if (audiortc === 1) {
+          easyrtc.enableMicrophone(false);
+          audiortc = 0;
+          console.log(audiortc);
+          button.innerHTML = "Unmute!";
+        } else {
+          easyrtc.enableMicrophone(true);
+          audiortc = 1;
+          console.log(audiortc);
+          button.innerHTML = "Mute!";
+        }
+      });
+    </script>
+
+    <!--<script>
+      
+      let stream = elScene.getAttribute("networked-scene").audio;
+      
+      function toggleMic(stream) {
+        // stream is your local WebRTC stream
+        var audioTracks = stream.getAudioTracks();
+        for (var i = 0, l = audioTracks.length; i < l; i++) {
+          audioTracks[i].enabled = !audioTracks[i].enabled;
+        }
+      }
+    </script>-->
+
+    <!--<script>
+      let elScene = document.querySelector("a-scene");
+      let button = document.getElementById("myButton");
+      let player = document.getElementyById("player");
+
+      button.addEventListener("click", function() {
+        let audio = mediaStream.getAudioTracks()[0].enabled;
+
+        if (audio === true) {
+          mediaStream.getAudioTracks()[0].enabled = false;
+        } else {
+          mediaStream.getAudioTracks()[0].enabled = true;
+        }
+
+        console.log(audio);
+      });    
+    
+    </script>-->
+
+    <!--USERNAME-->
+    <script>
+      //let username = prompt("What's you name mtf", "default");
+
+      let player = document.getElementById("player");
+      let nametag = player.querySelector(".nametag");
+      //nametag.setAttribute('text', 'value', username);
+
+      let yourName = document.getElementById("userName");
+
+      function changeUsernameFirst() {
+        var firstInput = document.getElementById("firstUsername").value;
+        nametag.setAttribute("text", "value", firstInput);
+
+        let ui = document.getElementById("ingameUI");
+
+        var enter = document.getElementById("enter");
+        yourName.setAttribute("placeholder", firstInput);
+        enter.style.display = "none";
+        ui.style.display = "block";
+      }
+
+      function changeUsername() {
+        var input = document.getElementById("userName").value;
+        nametag.setAttribute("text", "value", input);
+      }
+    </script>
+
+    <!--CHAT-->
+    <script>
+      let chattext = player.querySelector(".chattext");
+
+      let chatBox = document.getElementById("chatBox");
+
+      function sendMessage() {
+        let message = chatBox.value;
+        chattext.setAttribute("text", "value", message);
+
+        chatBox.value = "";
+        setTimeout(function deleteMessage() {
+          chattext.setAttribute("text", "value", "");
+        }, 3000);
+      }
+    </script>
+
+    <!-- Start the webcam stream and attach it to the video element -->
+    <!--<script>
+    // You can also set which camera to use (front/back/etc)
+      navigator.mediaDevices.getUserMedia({audio: false, video: true})
+      .then(stream => {
+        let $video = document.querySelector('video')
+        $video.srcObject = stream
+        $video.onloadedmetadata = () => {
+          $video.play()
+        }
+      });
+      
+      
+      
+      let head = player.querySelector(".head");
+      
+      let cam = document.getElementById("webcam");
+      
+      head.setAttribute("material", "src", cam);
+      
+    </script>-->
+  </body>
+</html>
