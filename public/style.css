@@ -1,0 +1,48 @@
+#enter {
+  position:absolute;
+  z-index:2000;
+  display:flex;
+  width: 80vw;
+  height: 80vh;
+  left: 10vw;
+  top: 10vh;
+  justify-content: center;
+  align-items: center;
+}
+
+#enterBack {
+  position:absolute;
+  background-color: black;
+  width: inherit;
+  height: inherit;
+  z-index: 2000;
+  opacity: 0.9;
+  
+}
+
+.enterContent {
+  position:relative;
+  z-index: 3000;
+  
+}
+
+#enterButton {
+  
+}
+
+#firstUsername {
+  
+}
+
+p {
+  color: white;
+  letter-spacing: 3px;
+  line-height: 20px;
+  z-index: 4000;
+  
+}
+
+h1 {
+  color: white;
+  letter-spacing: 5px;
+}
