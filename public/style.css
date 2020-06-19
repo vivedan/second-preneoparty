@@ -8,7 +8,12 @@
   top: 10vh;
   justify-content: center;
   align-items: center;
+  background: black;
+  opacity: 0.8;
+
 }
+
+
 
 #enterBack {
   position:absolute;
@@ -20,25 +25,52 @@
   
 }
 
+#enterName {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
 .enterContent {
   position:relative;
   z-index: 3000;
   
 }
 
-#enterButton {
-  
+#logoEnter {
+  position:relative;
+  z-index: 2999;
+  width: 45vw;
+  height: 18vh;
+  left: 20vw;
 }
 
-#firstUsername {
-  
+
+#instructions {
+  position: relative;
+  display: grid;
+  grid-template-columns: 5vw 15vw 5vw 15vw 5vw 15vw;
+}
+
+.iconEnter {
+  position: relative;
+  width: 40px;
+  height: auto;
+  justify-self: right;
+  padding: 15px 12px;
+}
+
+#micIcon {
+  width: 30px;
+  height: auto;
 }
 
 p {
   color: white;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
   line-height: 20px;
   z-index: 4000;
+  font-family: 'Lato';
   
 }
 
@@ -47,13 +79,13 @@ h1 {
   letter-spacing: 5px;
 }
 
-#myButton {
+/*#myButton {
   position: relative;
   opacity: 0.5;
   top: 7px;
   left: 7px;
   padding: 5px;
-}
+}*/
 
 #title {
   position: relative;
@@ -75,18 +107,7 @@ h1 {
   
 }
 
-#chatDiv {
-  position: relative;
-  top: 88vh;
-  display: flex;
-  justify-content: center;
-  left: 50%;
-  transform: translateX(-50%);
-}
 
-#chatBox {
-  opacity: 0.5;
-}
 
 #firstUsername {
   opacity: 0.5;
@@ -96,12 +117,16 @@ h1 {
   border-radius: 25px;
   border-style: solid;
   border-color: #e0e0e0;
-  width: 200px;
-  padding: 3px;
+  font-size: 15px;
+  font-family: 'Lato';
+  width: 250px;
+  padding: 7px;
+  margin: 50px 5px;
+  transition: font-weight 0.5s, box-shadow 0.5s;
 
 }
 
-#enterName::after {
+/*#enterName::after {
   content: "Username should be at least 3 characters long";
   color: #03f4fc;
   position: absolute;
@@ -111,12 +136,9 @@ h1 {
   top: 55vh;
   display: none;
   
-}
+}*/
 
-#firstUsername:focus #enterName::after{
-  display: block;
-  background: red;
-}
+
 
 
 #enterButton {
@@ -125,25 +147,85 @@ h1 {
   border-radius: 25px;
   border-style: solid;
   border-color: #e0e0e0;
-  width: 80px;
-  padding: 3px;
+  font-size: 15px;
+  font-family: 'Lato';
+  width: 150px;
+  padding: 7px;
+  margin: 50px 5px;
+  transition: background 1s, box-shadow 0.5s;
+  
 
 }
+
+#firstUsername:focus + #enterButton{
+  opacity: 1;
+  background: linear-gradient(to right, #03f4fc, #f803fc);
+  box-shadow: 2px 5px #f542f2;
+}
+
+#firstUsername:focus{
+  font-weight: 700;
+  box-shadow: 0px 0px 100px #f542f2;
+}
+
+#instaLogo {
+  position: relative;
+  top: 45vh;
+  left: 15vw;
+  width: 40px;
+  height: 40px;
+}
+
+
+
+/* SCENE */
+
+#mainCont {
+  position: relative;
+  width: 100vw;
+  height: auto;
+  padding: 0px;
+}
+
+
+#scene {
+  position: absolute; 
+  z-index: 0;
+}
+
+#ingameUItop {
+  position: absolute;
+  z-index: 1000; 
+  display: none;
+}
+
+#ingameUIbottom {
+  position: relative;
+  z-index: 1000; 
+  display: none;
+  top: 95vh;
+  justify-content: space-between;
+}
+
 
 .input {
+  position: relative;
   opacity: 0.5;
   background: transparent;
-  border-radius: 25px solid;
+  top: 0px;
   border-style: solid;
   border-color: transparent transparent #e0e0e0;
+  font-family: 'Lato';
   width: 200px;
+  height: 25px;
   padding: 3px;
   color: white;
+  outline: none;
 
 }
 
 
-.button {
+/*.button {
   opacity: 0.5;
   color: white;
   background: transparent;
@@ -157,4 +239,114 @@ h1 {
 .button:hover {
   background: white;
   color: black;
+}*/
+
+.ingameIcon {
+  position: relative;
+  top: 1.2vh;
+  width: 25px;
+  height: 23px;
+  padding: 5px;
 }
+
+.UIbutton {
+  position: relative;
+  opacity: 0.6;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 0;
+  outline: none;
+  height: 25px;
+  border-radius: 25px;
+  font-size: 10px;
+  font-family: 'Lato';
+  transition: opacity 0.2s;
+}
+
+.UIbutton:hover {
+  opacity: 0.9;
+}
+
+#userName {
+  position: relative;
+  width: 150px;
+  transition: display 1s;
+}
+
+#userName:focus {
+  font-weight: bold;
+  box-shadow: 0px 0px 100px #f542f2;
+}
+
+
+#userName:focus + #changeButton {
+  opacity: 1;
+  background: linear-gradient(to right, #03f4fc, #f803fc);
+  box-shadow: 2px 3px #f542f2;
+
+}
+
+
+#chatDiv {
+  position: relative;
+  display: flex;
+  justify-self: flex-start;
+  justify-content: center;
+}
+
+#chatIcon {
+  position: relative;
+  top: -2px;
+}
+
+#chatBox {
+  opacity: 0.5;
+}
+
+#bottomCorner {
+  position: relative;
+  display: inline;
+  width: 10vw;
+  justify-self: flex-end;
+  align-self: center;
+}
+
+#bottomUsername {
+  position: relative;
+  display: inline;
+  font-family: 'Lato';
+  top: 0.4vh;
+  left: 3px;
+  letter-spacing: 4px;
+  font-style: italic;
+  font-weight: 300;
+}
+
+#ingameLogo {
+  position: absolute;
+  left: 0px;
+  top: -30px;
+  width: 10vw;
+  height: auto;
+  opacity: 0.3;
+}
+
+#FSbutton {
+  margin-left: 1vw;
+  z-index: 5000;
+  
+}
+
+/*#toggleFS {
+  content: "Toggle Fullscreen Mode";
+  color: white;
+  font-size: 11px;
+  font-family: 'Lato';
+  padding: 7px;
+  opacity: 0.5;
+  display: none;
+}
+
+#FSbutton:hover + #toggleFS {
+  display: inline;
+}*/
