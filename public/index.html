@@ -21,24 +21,35 @@
     <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
     <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
     <script src="/js/spawn-in-circle.component.js"></script>
-    
+
     <script src="https://unpkg.com/aframe-animation-component@^4.1.2/dist/aframe-animation-component.min.js"></script>
     <script src="https://cdn.rawgit.com/zcanter/aframe-gradient-sky/master/dist/gradientsky.min.js"></script>
     <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="style.css" />
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
-    
-    
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,300&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div id="mainCont" style="position:relative">
-      <div style="position:absolute; z-index:0">
+    <div id="mainCont">
+      <div id="scene">
         <a-scene
-          stats
+          
           physics="debug: true"
           networked-scene="
       room: audio;
@@ -58,8 +69,6 @@
               src="https://img.gs/bbdkhfbzkk/2048x2048,stretch/http://i.imgur.com/WqlqEkq.jpg"
               crossorigin="anonymous"
             />
-            
-            
 
             <video id="webcam" playsinline></video>
 
@@ -67,11 +76,13 @@
 
             <!-- Avatar -->
             <template id="avatar-template">
-              <a-entity class="avatar" networked-audio-source="refDistance: 10">
+              <a-entity class="avatar" networked-audio-source="refDistance: 1">
                 <a-sphere
                   class="head"
                   color="#5985ff"
                   scale="0.45 0.5 0.4"
+                  segments-height="9"
+                  segments-width="18"
                   random-color
                 ></a-sphere>
                 <a-entity
@@ -92,12 +103,16 @@
                     color="#efefef"
                     position="0.16 0.1 -0.35"
                     scale="0.12 0.12 0.12"
+                    segments-height="9"
+                    segments-width="9"
                   >
                     <a-sphere
                       class="pupil"
                       color="#000"
                       position="0 0 -1"
                       scale="0.2 0.2 0.2"
+                      segments-height="5"
+                      segments-width="5"
                     ></a-sphere>
                   </a-sphere>
                   <a-sphere
@@ -105,12 +120,16 @@
                     color="#efefef"
                     position="-0.16 0.1 -0.35"
                     scale="0.12 0.12 0.12"
+                    segments-height="9"
+                    segments-width="9"
                   >
                     <a-sphere
                       class="pupil"
                       color="#000"
                       position="0 0 -1"
                       scale="0.2 0.2 0.2"
+                      segments-height="5"
+                      segments-width="5"
                     ></a-sphere>
                   </a-sphere>
                 </a-entity>
@@ -129,23 +148,19 @@
 
             <audio
               id="music1"
-              src="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2FAn%20Unlikely%20Hero_redux.mp3?v=1590782293506"
-              
+              src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2FPH706%20tropical%20techno%20test%20(online-audio-converter.com)%20(2).mp3?v=1592583117421"
             ></audio>
             <audio
               id="music2"
-              src="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2FBoris%20Brejcha_redux.mp3?v=1590782296916"
-              
+              src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fmusic%20test2-reduced.mp3?v=1592583119376"
             ></audio>
             <audio
               id="music3"
-              src="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2FChristian%20Schachinger%20-redux.mp3?v=1590782308017"
-              
+              src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fmia-make%20reduced.mp3?v=1592583123794"
             ></audio>
             <audio
               id="music4"
               src="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2FDeborah%20de%20Luca%20redux.mp3?v=1590782316276"
-              
             ></audio>
             <audio
               id="center1"
@@ -168,620 +183,671 @@
           >
             <a-entity class="avatar" networked-audio-source></a-entity>
             <a-sphere class="head" visible="false" random-color></a-sphere>
-            <a-entity class="nametag" text="value: YOLO"></a-entity>
+            <a-entity class="nametag" text="value: "></a-entity>
             <a-entity class="chattext" text=""></a-entity>
           </a-entity>
 
-      <a-entity light="type: ambient;
+          <a-entity
+            light="type: ambient;
                        color:#465366;
                        intensity: 1;
-                       "></a-entity>
-      
-      <a-entity light="type: point;
+                       "
+          ></a-entity>
+
+          <a-entity
+            light="type: point;
                        color:#db6eff;
                        intensity: 5;
                        distance: 15"
-                position="20 7.5 4"></a-entity>
-      
-      <a-entity light="type: point;
+            position="20 7.5 4"
+          ></a-entity>
+
+          <a-entity
+            light="type: point;
                        color:#6efaff;
                        intensity: 5;
                        distance: 25"
-                position="-20 7.5 1"></a-entity>
-      
+            position="-20 7.5 1"
+          ></a-entity>
 
-      <a-sky src="#sky" rotation="0 -90 0" segments-height="10" segments-width="16"></a-sky>
-      <a-entity id="particles" particle-system="preset: snow"></a-entity>
-      
-      <!--Ceiling&Floor-->
-      <a-cylinder    scale="30 1.9 30"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
-                position="0 15 -10"
-                segments-height="1"
-                animation="property: scale; from: 50.1 1.1 50.1; to: 50.2 1.2 50.2; dur: 1000; loop: true; dir: alternate" 
-                animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"
-             ></a-cylinder>
-      <a-cylinder    scale="30 1.9 30"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
-                position="0 -2 -10"
-                segments-height="1"
-                animation="property: scale; from: 50.1 1.1 50.1; to: 50.2 1.2 50.2; dur: 1000; loop: true; dir: alternate" 
-                animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"
-             ></a-cylinder>
-          
-          
-      <!-- ENTRANCE -->
-          
-      <a-cylinder position="0 7 50"
-                  scale="10 100 10"
-                  rotation="90 0 0"
-                  side="double"
-                  open-ended="true"
-                  color="black"
-                  segments-height="1"
-                  ></a-cylinder>
-      
-      <a-cylinder position="0 7 0"
-                  scale="10 0.5 10"
-                  rotation="90 0 0"
-                  side="double"
-                  segments-height="1"
-                  material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #b73bff; emissiveIntensity: 0"
-                  animation="property: components.material.material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"></a-cylinder>
-          
+          <a-sky
+            src="#sky"
+            rotation="0 -90 0"
+            segments-height="10"
+            segments-width="16"
+          ></a-sky>
+          <a-entity id="particles" particle-system="preset: snow"></a-entity>
 
-          
-      <a-cylinder position="0 7 60"
-                  scale="10 0.5 10"
-                  rotation="90 0 0"
-                  visible="false"
-                  sound="src: #musicentrance; 
+          <!--Ceiling&Floor-->
+          <a-cylinder
+            scale="30 1.9 30"
+            material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+            position="0 15 -10"
+            segments-height="1"
+            animation="property: scale; from: 50.1 1.1 50.1; to: 50.2 1.2 50.2; dur: 1000; loop: true; dir: alternate"
+            animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"
+          ></a-cylinder>
+          <a-cylinder
+            scale="30 1.9 30"
+            material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+            position="0 -2 -10"
+            segments-height="1"
+            animation="property: scale; from: 50.1 1.1 50.1; to: 50.2 1.2 50.2; dur: 1000; loop: true; dir: alternate"
+            animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"
+          ></a-cylinder>
+
+          <!-- ENTRANCE -->
+
+          <a-cylinder
+            position="0 7 50"
+            scale="10 100 10"
+            rotation="90 0 0"
+            side="double"
+            open-ended="true"
+            color="black"
+            segments-height="1"
+          ></a-cylinder>
+
+          <a-cylinder
+            position="0 7 0"
+            scale="10 0.5 10"
+            rotation="90 0 0"
+            side="double"
+            segments-height="1"
+            material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #b73bff; emissiveIntensity: 0"
+            animation="property: components.material.material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"
+          ></a-cylinder>
+
+          <a-cylinder
+            position="0 7 60"
+            scale="10 0.5 10"
+            rotation="90 0 0"
+            visible="false"
+            sound="src: #musicentrance; 
                     autoplay: true;
                     volume: 1;
                     loop: true;
                     refDistance: 30;
-                    rolloffFactor: 10"></a-cylinder>
-          
-      <a-cylinder position="0 7 20"
-                  scale="10 0.5 10"
-                  rotation="90 0 0"
-                  side="double"
-                  segments-height="1"
-                  material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
-                  animation="property: components.material.material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"></a-cylinder>
-          
-      <a-cylinder position="0 7 40"
-                  scale="10 0.5 10"
-                  rotation="90 0 0"
-                  side="double"
-                  segments-height="1"
-                  material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #b8f8ff; emissiveIntensity: 0"
-                  animation="property: components.material.material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"
-                  ></a-cylinder>
+                    rolloffFactor: 10"
+          ></a-cylinder>
 
+          <a-cylinder
+            position="0 7 20"
+            scale="10 0.5 10"
+            rotation="90 0 0"
+            side="double"
+            segments-height="1"
+            material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+            animation="property: components.material.material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"
+          ></a-cylinder>
 
-          
-          
-      <a-cylinder position="0 7 90"
-                  scale="10 0.5 10"
-                  rotation="90 0 0"
-                  color="black"
-                  side="double"
-                  segments-height="1"
-                  ></a-cylinder>
-      
+          <a-cylinder
+            position="0 7 40"
+            scale="10 0.5 10"
+            rotation="90 0 0"
+            side="double"
+            segments-height="1"
+            material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #b8f8ff; emissiveIntensity: 0"
+            animation="property: components.material.material.emissiveIntensity; from: 0; to: 5; dur: 10000; loop: true; dir: alternate"
+          ></a-cylinder>
 
-     
-    <!--CENTER-->  
-    <a-entity position="0 0 0">
-      
-      <!-- MODEL AND LIGHTS -->
-      <a-entity>
-      
-            <a-entity gltf-model="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2Fravecartel1.glb?v=1590784612437"
+          <a-cylinder
+            position="0 7 90"
+            scale="10 0.5 10"
+            rotation="90 0 0"
+            color="black"
+            side="double"
+            segments-height="1"
+          ></a-cylinder>
+
+          <!--CENTER-->
+          <a-entity position="0 0 0">
+            <!-- MODEL AND LIGHTS -->
+            <a-entity>
+              <a-entity
+                gltf-model="https://cdn.glitch.com/83db13bb-2e50-4db4-ae15-d23dcb891201%2Fravecartel1.glb?v=1590784612437"
                 scale="1 1 1"
                 rotation="0 0 0"
                 position="0 9 -10"
                 animation="property: rotation; to: 0 360 0; dur: 20000; loop: true; dir: reverse"
-                ></a-entity>  
-        
-        
-      <a-entity gltf-model="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fbunny4.glb?v=1592481170177"
+              ></a-entity>
+
+              <a-entity
+                gltf-model="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fbunny4.glb?v=1592481170177"
                 scale="2 2 2"
                 rotation="0 180 0"
                 position="0 4 -10"
                 material="metalness: 0; roughness: 1"
                 animation="property: position; to: 0 4.3 -10; dur: 1100; loop: true; dir: alternate"
                 animation__2="property: rotation; from: 0 360 0; dur: 25000; loop: true; dir: reverse"
-                >
-        
-              <a-entity light="type: point;
+              >
+                <a-entity
+                  light="type: point;
                        color:#db6eff;
                        intensity: 15;
                        distance: 15"
-                position="1.8 3.5 -1.3"></a-entity>
-        
-              <a-entity light="type: point;
+                  position="1.8 3.5 -1.3"
+                ></a-entity>
+
+                <a-entity
+                  light="type: point;
                        color:#6efaff;
                        intensity: 10;
                        distance: 15"
-                position="-3 2 1.8"></a-entity>
-        
-              <!--<a-entity light="type: point;
+                  position="-3 2 1.8"
+                ></a-entity>
+
+                <!--<a-entity light="type: point;
                        color:#db6eff;
                        intensity: 10;
                        distance: 15"
                 position="3.4 4 6"></a-entity>-->
-             
-      </a-entity>
-        
-      
-     </a-entity>
+              </a-entity>
+            </a-entity>
 
-      
-      <!--BOX AND MUSIC-->
-      
+            <!--BOX AND MUSIC-->
 
-      <a-box    scale="2 5 2"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
-                
-                position="0 1 -10"
-               
-             >
-        
-      </a-box>
-      
-      
-      <a-box    scale="1.9 1.9 1.9"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
-                position="0 1 -10"
-                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
-                animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
-             ></a-box>
-        
-        
-      <a-box    scale="2 5 2"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
-                
-                position="0 11 -10"
-               
-             >
-        
-      </a-box>
-      
-      
-      <a-box    scale="1.9 1.9 1.9"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
-                position="0 11 -10"
-                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
-                animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
-             ></a-box>
-      
-      <a-sphere  radius="30"
-                 position="0 5 -10"
-                 visible="false"
-                 sound="src: #center1; 
+            <a-box
+              scale="2 5 2"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+              position="0 1 -10"
+            >
+            </a-box>
+
+            <a-box
+              scale="1.9 1.9 1.9"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+              position="0 1 -10"
+              animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate"
+              animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+            ></a-box>
+
+            <a-box
+              scale="2 5 2"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+              position="0 11 -10"
+            >
+            </a-box>
+
+            <a-box
+              scale="1.9 1.9 1.9"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+              position="0 11 -10"
+              animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate"
+              animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+            ></a-box>
+
+            <a-sphere
+              radius="30"
+              position="0 5 -10"
+              visible="false"
+              sound="src: #center1; 
                     autoplay: true;
                     volume: 1;
                     loop: true;
                     refDistance: 20;
-                    rolloffFactor: 10">     
-      </a-sphere>
-     
-      </a-entity>
-      
-      <!--1-->
-      <a-entity position="30 0 30">
+                    rolloffFactor: 10"
+            >
+            </a-sphere>
+          </a-entity>
+
+          <!--1-->
+          <a-entity position="30 0 30">
             <!-- MODEL AND LIGHTS -->
-      <a-entity>
-      
-      <a-entity gltf-model="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fbunny4.glb?v=1592481170177"
+            <a-entity>
+              <a-entity
+                gltf-model="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fbunny4.glb?v=1592481170177"
                 scale="2 2 2"
                 rotation="0 180 0"
                 position="0 4 -10"
                 material="metalness: 0; roughness: 1"
                 animation="property: position; to: 0 4.3 -10; dur: 1100; loop: true; dir: alternate"
                 animation__2="property: rotation; from: 0 360 0; dur: 25000; loop: true; dir: reverse"
-                >
-        
-              <a-entity light="type: point;
+              >
+                <a-entity
+                  light="type: point;
                        color:#db6eff;
                        intensity: 15;
                        distance: 15"
-                position="1.8 3.5 -1.3"></a-entity>
-        
-              <a-entity light="type: point;
+                  position="1.8 3.5 -1.3"
+                ></a-entity>
+
+                <a-entity
+                  light="type: point;
                        color:#6efaff;
                        intensity: 10;
                        distance: 15"
-                position="-3 2 1.8"></a-entity>
-        
-              <!--<a-entity light="type: point;
+                  position="-3 2 1.8"
+                ></a-entity>
+
+                <!--<a-entity light="type: point;
                        color:#db6eff;
                        intensity: 10;
                        distance: 15"
                 position="3.4 4 6"></a-entity>-->
-             
-      </a-entity>
-        
-      
-     </a-entity>
+              </a-entity>
+            </a-entity>
 
-      
-      <!--BOX AND MUSIC-->
-      
+            <!--BOX AND MUSIC-->
 
-      <a-box    scale="2 5 2"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
-                
-                position="0 1 -10"
-               
-             >
-        
-      </a-box>
-      
-      
-      <a-box    scale="1.9 1.9 1.9"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
-                position="0 1 -10"
-                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
-                animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
-             ></a-box>
-        
-        
-      <a-box    scale="2 5 2"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
-                
-                position="0 11 -10"
-               
-             >
-        
-      </a-box>
-      
-      
-      <a-box    scale="1.9 1.9 1.9"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
-                position="0 11 -10"
-                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
-                animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
-             ></a-box>
-      
-      <a-sphere  radius="30"
-                 position="0 5 -10"
-                 visible="false"
-                 sound="src: #music1; 
+            <a-box
+              scale="2 5 2"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+              position="0 1 -10"
+            >
+            </a-box>
+
+            <a-box
+              scale="1.9 1.9 1.9"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+              position="0 1 -10"
+              animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate"
+              animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+            ></a-box>
+
+            <a-box
+              scale="2 5 2"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+              position="0 11 -10"
+            >
+            </a-box>
+
+            <a-box
+              scale="1.9 1.9 1.9"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+              position="0 11 -10"
+              animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate"
+              animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+            ></a-box>
+
+            <a-sphere
+              radius="30"
+              position="0 5 -10"
+              visible="false"
+              sound="src: #music1; 
                     autoplay: true;
                     volume: 1;
                     loop: true;
                     refDistance: 10;
-                    rolloffFactor: 10">     
-      </a-sphere>
-     
-      </a-entity>
-      
-      
-            <!--2-->
-      <a-entity position="30 0 -30">
+                    rolloffFactor: 10"
+            >
+            </a-sphere>
+          </a-entity>
+
+          <!--2-->
+          <a-entity position="30 0 -30">
             <!-- MODEL AND LIGHTS -->
-      <a-entity>
-      
-      <a-entity gltf-model="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fbunny4.glb?v=1592481170177"
+            <a-entity>
+              <a-entity
+                gltf-model="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fbunny4.glb?v=1592481170177"
                 scale="2 2 2"
                 rotation="0 180 0"
                 position="0 4 -10"
                 material="metalness: 0; roughness: 1"
                 animation="property: position; to: 0 4.3 -10; dur: 1100; loop: true; dir: alternate"
                 animation__2="property: rotation; from: 0 360 0; dur: 25000; loop: true; dir: reverse"
-                >
-        
-              <a-entity light="type: point;
+              >
+                <a-entity
+                  light="type: point;
                        color:#db6eff;
                        intensity: 15;
                        distance: 15"
-                position="1.8 3.5 -1.3"></a-entity>
-        
-              <a-entity light="type: point;
+                  position="1.8 3.5 -1.3"
+                ></a-entity>
+
+                <a-entity
+                  light="type: point;
                        color:#6efaff;
                        intensity: 10;
                        distance: 15"
-                position="-3 2 1.8"></a-entity>
-        
-              <!--<a-entity light="type: point;
+                  position="-3 2 1.8"
+                ></a-entity>
+
+                <!--<a-entity light="type: point;
                        color:#db6eff;
                        intensity: 10;
                        distance: 15"
                 position="3.4 4 6"></a-entity>-->
-             
-      </a-entity>
-        
-      
-     </a-entity>
+              </a-entity>
+            </a-entity>
 
-      
-      <!--BOX AND MUSIC-->
-      
+            <!--BOX AND MUSIC-->
 
-      <a-box    scale="2 5 2"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
-                
-                position="0 1 -10"
-               
-             >
-        
-      </a-box>
-      
-      
-      <a-box    scale="1.9 1.9 1.9"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
-                position="0 1 -10"
-                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
-                animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
-             ></a-box>
-        
-        
-      <a-box    scale="2 5 2"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
-                
-                position="0 11 -10"
-               
-             >
-        
-      </a-box>
-      
-      
-      <a-box    scale="1.9 1.9 1.9"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
-                position="0 11 -10"
-                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
-                animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
-             ></a-box>
-      
-      <a-sphere  radius="30"
-                 position="0 5 -10"
-                 visible="false"
-                 sound="src: #music2; 
+            <a-box
+              scale="2 5 2"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+              position="0 1 -10"
+            >
+            </a-box>
+
+            <a-box
+              scale="1.9 1.9 1.9"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+              position="0 1 -10"
+              animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate"
+              animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+            ></a-box>
+
+            <a-box
+              scale="2 5 2"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+              position="0 11 -10"
+            >
+            </a-box>
+
+            <a-box
+              scale="1.9 1.9 1.9"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+              position="0 11 -10"
+              animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate"
+              animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+            ></a-box>
+
+            <a-sphere
+              radius="30"
+              position="0 5 -10"
+              visible="false"
+              sound="src: #music2; 
                     autoplay: true;
                     volume: 1;
                     loop: true;
                     refDistance: 10;
-                    rolloffFactor: 10">     
-      </a-sphere>
-     
-      </a-entity>
-      
-      
-            <!--3-->
-      <a-entity position="-30 0 30">
+                    rolloffFactor: 10"
+            >
+            </a-sphere>
+          </a-entity>
+
+          <!--3-->
+          <a-entity position="-30 0 30">
             <!-- MODEL AND LIGHTS -->
-      <a-entity>
-      
-      <a-entity gltf-model="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fbunny4.glb?v=1592481170177"
+            <a-entity>
+              <a-entity
+                gltf-model="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fbunny4.glb?v=1592481170177"
                 scale="2 2 2"
                 rotation="0 180 0"
                 position="0 4 -10"
                 material="metalness: 0; roughness: 1"
                 animation="property: position; to: 0 4.3 -10; dur: 1100; loop: true; dir: alternate"
                 animation__2="property: rotation; from: 0 360 0; dur: 25000; loop: true; dir: reverse"
-                >
-        
-              <a-entity light="type: point;
+              >
+                <a-entity
+                  light="type: point;
                        color:#db6eff;
                        intensity: 15;
                        distance: 15"
-                position="1.8 3.5 -1.3"></a-entity>
-        
-              <a-entity light="type: point;
+                  position="1.8 3.5 -1.3"
+                ></a-entity>
+
+                <a-entity
+                  light="type: point;
                        color:#6efaff;
                        intensity: 10;
                        distance: 15"
-                position="-3 2 1.8"></a-entity>
-        
-              <!--<a-entity light="type: point;
+                  position="-3 2 1.8"
+                ></a-entity>
+
+                <!--<a-entity light="type: point;
                        color:#db6eff;
                        intensity: 10;
                        distance: 15"
                 position="3.4 4 6"></a-entity>-->
-             
-      </a-entity>
-        
-      
-     </a-entity>
+              </a-entity>
+            </a-entity>
 
-      
-      <!--BOX AND MUSIC-->
-      
+            <!--BOX AND MUSIC-->
 
-      <a-box    scale="2 5 2"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
-                
-                position="0 1 -10"
-               
-             >
-        
-      </a-box>
-      
-      
-      <a-box    scale="1.9 1.9 1.9"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
-                position="0 1 -10"
-                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
-                animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
-             ></a-box>
-        
-        
-      <a-box    scale="2 5 2"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
-                
-                position="0 11 -10"
-               
-             >
-        
-      </a-box>
-      
-      
-      <a-box    scale="1.9 1.9 1.9"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
-                position="0 11 -10"
-                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
-                animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
-             ></a-box>
-      
-      <a-sphere  radius="30"
-                 position="0 5 -10"
-                 visible="false"
-                 sound="src: #music3; 
+            <a-box
+              scale="2 5 2"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+              position="0 1 -10"
+            >
+            </a-box>
+
+            <a-box
+              scale="1.9 1.9 1.9"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+              position="0 1 -10"
+              animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate"
+              animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+            ></a-box>
+
+            <a-box
+              scale="2 5 2"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+              position="0 11 -10"
+            >
+            </a-box>
+
+            <a-box
+              scale="1.9 1.9 1.9"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+              position="0 11 -10"
+              animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate"
+              animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+            ></a-box>
+
+            <a-sphere
+              radius="30"
+              position="0 5 -10"
+              visible="false"
+              sound="src: #music3; 
                     autoplay: true;
-                    volume: 1;
+                    volume: 0.6;
                     loop: true;
                     refDistance: 10;
-                    rolloffFactor: 10">     
-      </a-sphere>
-     
-      </a-entity>
-      
-            <!--4-->
-      <a-entity position="-30 0 -30">
+                    rolloffFactor: 10"
+            >
+            </a-sphere>
+          </a-entity>
+
+          <!--4-->
+          <a-entity position="-30 0 -30">
             <!-- MODEL AND LIGHTS -->
-      <a-entity>
-      
-      <a-entity gltf-model="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fbunny4.glb?v=1592481170177"
+            <a-entity>
+              <a-entity
+                gltf-model="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fbunny4.glb?v=1592481170177"
                 scale="2 2 2"
                 rotation="0 180 0"
                 position="0 4 -10"
                 material="metalness: 0; roughness: 1"
                 animation="property: position; to: 0 4.3 -10; dur: 1100; loop: true; dir: alternate"
                 animation__2="property: rotation; from: 0 360 0; dur: 25000; loop: true; dir: reverse"
-                >
-        
-              <a-entity light="type: point;
+              >
+                <a-entity
+                  light="type: point;
                        color:#db6eff;
                        intensity: 15;
                        distance: 15"
-                position="1.8 3.5 -1.3"></a-entity>
-        
-              <a-entity light="type: point;
+                  position="1.8 3.5 -1.3"
+                ></a-entity>
+
+                <a-entity
+                  light="type: point;
                        color:#6efaff;
                        intensity: 10;
                        distance: 15"
-                position="-3 2 1.8"></a-entity>
-        
-              <!--<a-entity light="type: point;
+                  position="-3 2 1.8"
+                ></a-entity>
+
+                <!--<a-entity light="type: point;
                        color:#db6eff;
                        intensity: 10;
                        distance: 15"
                 position="3.4 4 6"></a-entity>-->
-             
-      </a-entity>
-        
-      
-     </a-entity>
+              </a-entity>
+            </a-entity>
 
-      
-      <!--BOX AND MUSIC-->
-      
+            <!--BOX AND MUSIC-->
 
-      <a-box    scale="2 5 2"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
-                
-                position="0 1 -10"
-               
-             >
-        
-      </a-box>
-      
-      
-      <a-box    scale="1.9 1.9 1.9"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
-                position="0 1 -10"
-                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
-                animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
-             ></a-box>
-        
-        
-      <a-box    scale="2 5 2"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
-                
-                position="0 11 -10"
-               
-             >
-        
-      </a-box>
-      
-      
-      <a-box    scale="1.9 1.9 1.9"
-                material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
-                position="0 11 -10"
-                animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate" 
-                animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
-             ></a-box>
-      
-      <a-sphere  radius="30"
-                 position="0 5 -10"
-                 visible="false"
-                 sound="src: #music4; 
+            <a-box
+              scale="2 5 2"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+              position="0 1 -10"
+            >
+            </a-box>
+
+            <a-box
+              scale="1.9 1.9 1.9"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+              position="0 1 -10"
+              animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate"
+              animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+            ></a-box>
+
+            <a-box
+              scale="2 5 2"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1;"
+              position="0 11 -10"
+            >
+            </a-box>
+
+            <a-box
+              scale="1.9 1.9 1.9"
+              material="src: #cubelayout; transparent: true; opacity: 0.5; repeat: 0.75 0.75; offset: 0 0.1; emissive: #fc9803; emissiveIntensity: 0"
+              position="0 11 -10"
+              animation="property: scale; from: 2.1 5.1 2.1; to: 2.2 5.2 2.2; dur: 1000; loop: true; dir: alternate"
+              animation__2="property: components.material.material.emissiveIntensity; from: 0; to: 20; dur: 10000; loop: true; dir: alternate"
+            ></a-box>
+
+            <a-sphere
+              radius="30"
+              position="0 5 -10"
+              visible="false"
+              sound="src: #music4; 
                     autoplay: true;
                     volume: 1;
                     loop: true;
                     refDistance: 10;
-                    rolloffFactor: 10">     
-      </a-sphere>
-     
-      </a-entity>
-
+                    rolloffFactor: 10"
+            >
+            </a-sphere>
+          </a-entity>
         </a-scene>
       </div>
-
-      <div id="ingameUI" style="position:relative; z-index:1000; display: none">
+      
+      <div id="ingameUItop">
         <!--<button id="myButton">Mute!</button> -->
-        <img id="myButton" src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fmute-microphoneW.png?v=1592347798894" height="25" size="25">
-        <input class="input" id="userName" placeholder="Write your new Username here!" />
-        <button class="button" onclick="changeUsername()">Change Username</button>
-        <div id="chatDiv">
-        <input class="input" id="chatBox" placeholder="Here to chat!" />
-        <button class="button" onclick="sendMessage()">
-          Send
+        <img
+          class="ingameIcon"
+          id="muteIcon"
+          src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Ficon-unmute.png?v=1592505881505"
+        />
+        <button class="UIbutton" id="myButton">
+          Mute
         </button>
+        <img
+          class="ingameIcon"
+          id="bottopIcon"
+          src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Ficon-bot.png?v=1592505881199"
+        />
+        <input
+          class="input"
+          id="userName"
+          placeholder="Write your new Username here!"
+          style="display: none"
+        />
+        <button class="UIbutton" id="changeButton" onclick="changeUsername()">
+          Change Username
+        </button>
+      </div>
+        
+      <div id="ingameUIbottom">
+        <div id="chatDiv">
+          <img
+            class="ingameIcon"
+            id="chatIcon"
+            src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Ficon-chat.png?v=1592505880783"
+          />
+          <input class="input" id="chatBox" placeholder="Here to chat!" />
+          <button class="UIbutton" onclick="sendMessage()">
+            Send
+          </button>
+          
+          <img id="FSbutton" class="UIbutton" src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Ffullscreen.png?v=1592571348624" onclick="toggleFullScreen()"/>
+          <!--<p id="toggleFS">
+            Toggle Fullscreen Mode
+          </p>-->
+          
+        </div>
+        <div id="bottomCorner">
+          <img
+            id="ingameLogo"
+            src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fph706logo.png?v=1592505899220"
+          />
+          <img
+            class="ingameIcon"
+            id="botbottomIcon"
+            src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Ficon-bot.png?v=1592505881199"
+          />
+          <p id="bottomUsername">
+            Username
+          </p> 
         </div>
       </div>
 
       <div id="enter">
         <div>
           <div id="enterBack"></div>
-          <h1 id="title">
+          <img
+            id="logoEnter"
+            src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fneon%20logo2.png?v=1592505914123"
+          />
+          <!--<h1 id="title">
             PH706
           </h1>
           <h1 id="subtitle">
             WELCOME BOTS...
-          </h1>
-          <p>
-            <b>Reminder:</b> enter with Chrome on your desktop/laptop and use
-            earphones/headphones)<br />
-            Navigate within the space using <b>W,S,A,D keys (or arrow keys)</b>, and
-            use the mouse to look around.<br />
-            Please allow the microphone so you can converse with others who are
-            on the platform.<br />
-          </p>
-          <p>
-            Please write your username below:
-          </p>
+          </h1>-->
+
+          <div id="instructions">
+            <img
+              class="iconEnter"
+              id="headphoneIcon"
+              src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Ferji-4.png?v=1592505881145"
+            />
+            <p>Please enter with <b>Chrome</b> or <b>Firefox</b> and use earphones/headphones</p>
+            <img
+              class="iconEnter"
+              id="arrowIcon"
+              src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fdaohang.png?v=1592505880553"
+            />
+            <p>
+              Use <b>W, S, A, D keys</b> (or arrow keys) <br />and mouse to
+              navigate
+            </p>
+            <img
+              class="iconEnter"
+              id="micIcon"
+              src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Ficon-unmute22.png?v=1592514789081"
+            />
+            <p>
+              Please allow the microphone upon request from the browser, so that
+              you can talk with others
+            </p>
+          </div>
+
           <div id="enterName">
-            
-          
-          <input
-            id="firstUsername"
-            class="enterContent"
-            placeholder="Write your Username here!"
-          />
-          <button
-            id="enterButton"
-            class="enterContent"
-            onclick="changeUsernameFirst()"
-          >
-            To party!
-          </button>
+            <input
+              id="firstUsername"
+              class="enterContent"
+              placeholder="Write your Username here!"
+              tabindex="1"
+            />
+            <button
+              id="enterButton"
+              class="enterContent"
+              onclick="changeUsernameFirst()"
+            >
+              To party!
+            </button>
           </div>
         </div>
+        <a href="https://www.instagram.com/ph7.0.6/" target="_blank">
+          <img id="instaLogo" src="https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Finstagram-3.png?v=1592566394569" />
+        </a>
       </div>
+      
+      
     </div>
 
     <script>
@@ -856,11 +922,11 @@
         }
       });
     </script> -->
-    
-    
+
     <!--AUDIO ICON -->
     <script>
       let button = document.getElementById("myButton");
+      let icon = document.getElementById("muteIcon");
       let audiortc = 1;
 
       button.addEventListener("click", function() {
@@ -868,15 +934,19 @@
           easyrtc.enableMicrophone(false);
           audiortc = 0;
           console.log(audiortc);
-          button.src = "https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fmicrophone-black-shapeW.png?v=1592347798759";
+          button.innerHTML = "Unmute";
+          icon.src =
+            "https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Ficon-mute.png?v=1592505880753";
         } else {
           easyrtc.enableMicrophone(true);
           audiortc = 1;
           console.log(audiortc);
-          button.src = "https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fmute-microphoneW.png?v=1592347798894";
+          button.innerHTML = "Mute";
+          icon.src =
+            "https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Ficon-unmute.png?v=1592505881505";
         }
       });
-    </script>    
+    </script>
 
     <!--<script>
       
@@ -919,22 +989,39 @@
       //nametag.setAttribute('text', 'value', username);
 
       let yourName = document.getElementById("userName");
+      let bottomName = document.getElementById("bottomUsername");
 
       function changeUsernameFirst() {
         var firstInput = document.getElementById("firstUsername").value;
         nametag.setAttribute("text", "value", firstInput);
 
-        let ui = document.getElementById("ingameUI");
+        let uitop = document.getElementById("ingameUItop");
+        let uibottom = document.getElementById("ingameUIbottom");
 
         var enter = document.getElementById("enter");
         yourName.setAttribute("placeholder", firstInput);
+        bottomName.innerHTML = firstInput;
         enter.style.display = "none";
-        ui.style.display = "block";
+        uitop.style.display = "block";
+        uibottom.style.display = "flex";
       }
 
       function changeUsername() {
-        var input = document.getElementById("userName").value;
-        nametag.setAttribute("text", "value", input);
+        let userName = document.getElementById("userName");
+        var input = userName.value;
+        var visible = userName.style.display;
+        
+        if(visible == "none") {
+          console.log(visible);
+          userName.style.display = "inline";
+        }
+        else {
+          console.log(visible);
+          nametag.setAttribute("text", "value", input);
+          bottomName.innerHTML = input;
+          userName.style.display = "none";
+        }
+        
       }
     </script>
 
@@ -951,9 +1038,34 @@
         chatBox.value = "";
         setTimeout(function deleteMessage() {
           chattext.setAttribute("text", "value", "");
-        }, 3000);
+        }, 4000);
       }
     </script>
+    
+    
+    <script>
+    
+    function toggleFullScreen() {
+      var doc = window.document;
+      var docEl = doc.documentElement;
+
+      var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+      var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+      
+      let FSbutton = document.getElementById("FSbutton");
+
+      if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+        requestFullScreen.call(docEl);
+        FSbutton.src = "https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Fback%20fullscreen.png?v=1592571348479";
+      }
+      else {
+        cancelFullScreen.call(doc);
+        FSbutton.src = "https://cdn.glitch.com/0e65d536-0425-4e6e-8059-1247674b938e%2Ffullscreen.png?v=1592571348624";
+      }
+    }
+      
+    </script>
+    
 
     <!-- Start the webcam stream and attach it to the video element -->
     <!--<script>
